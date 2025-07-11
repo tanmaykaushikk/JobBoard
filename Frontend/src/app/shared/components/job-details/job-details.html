@@ -1,0 +1,86 @@
+<!-- Job Details Component with Modern Styling -->
+<div class="job-details-wrapper">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Loading job details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && error" class="error-container">
+    <div class="error-icon">⚠️</div>
+    <p class="error-message">{{ error }}</p>
+  </div>
+
+  <!-- Job Details Content -->
+  <div class="job-details-container" *ngIf="!loading && job">
+    <!-- Header Section -->
+    <div class="job-header">
+      <h1 class="job-title">{{ job.title }}</h1>
+      <div class="job-meta">
+        <span class="job-role">{{ job.employmentType }}</span>
+        <span class="job-position">{{ job.companyName }}</span>
+      </div>
+    </div>
+
+    <!-- Quick Info Cards -->
+    <div class="info-cards">
+      <div class="info-card location-card">
+        <div class="card-icon">📍</div>
+        <div class="card-content">
+          <span class="card-label">Location</span>
+          <span class="card-value">{{ job.location }}</span>
+        </div>
+      </div>
+      
+      <div class="info-card mode-card">
+        <div class="card-icon">💼</div>
+        <div class="card-content">
+          <span class="card-label">Work Mode</span>
+          <span class="card-value">{{ job.employmentType }}</span>
+        </div>
+      </div>
+      
+      <div class="info-card package-card">
+        <div class="card-icon">💰</div>
+        <div class="card-content">
+          <span class="card-label">Package</span>
+          <span class="card-value">₹{{ job.salary | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Section -->
+    <div class="content-section">
+      <h3 class="section-title">
+        <span class="section-icon">📄</span>
+        Job Description
+      </h3>
+      <div class="description-content">
+        <p>{{ job.description }}</p>
+      </div>
+    </div>
+
+    <!-- Requirements Section -->
+    <div class="content-section">
+      <h3 class="section-title">
+        <span class="section-icon">✅</span>
+        Requirements
+      </h3>
+      <div class="requirements-content">
+        <ul class="requirements-list">
+          <li *ngFor="let req of job.requirements" class="requirement-item">
+            <span class="requirement-bullet">•</span>
+            <span class="requirement-text">{{ req }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-primary" (click)="handleApply()">{{isApplied?"Applied":"Apply Now"}}</button>
+      <button class="btn btn-secondary" (click)="handleSave()" >{{isSaved?"Saved":"Save"}}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="sidebar" [class.isClosed]="isClosed">
+
+  @if (!isClosed) {
+  <button class="back-btn" (click)="closeSideBar()">← Back</button>
+  }
+
+  <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+  <a routerLink="/dashboard/saved" routerLinkActive="active">Saved Jobs</a>
+  <a routerLink="/dashboard/filter" routerLinkActive="active">Filter</a>
+  <a routerLink="/dashboard/profile" routerLinkActive="active">Profile</a>
+</div>

@@ -1,0 +1,209 @@
+.sidebar {
+  width: 280px;
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  height: 100vh;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 
+    4px 0 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  a {
+    color: #e2e8f0;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.025em;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    overflow: hidden;
+
+    // Subtle gradient overlay
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 12px;
+    }
+
+    // Active state indicator
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+      border-radius: 0 2px 2px 0;
+      transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      transform: translateX(4px);
+      border-color: rgba(255, 255, 255, 0.1);
+      
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      font-weight: 600;
+      box-shadow: 
+        0 4px 12px rgba(59, 130, 246, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      
+      &::after {
+        height: 24px;
+      }
+
+      &:hover {
+        transform: translateX(2px);
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      }
+    }
+
+    // Icon space (if you add icons later)
+    &[data-icon] {
+      padding-left: 48px;
+      
+      &::before {
+        left: 16px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  // Closed state
+  &.isClosed {
+    width: 0;
+    padding: 24px 0;
+    overflow: hidden;
+    box-shadow: none;
+    
+    a {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    width: 100%;
+    transform: translateX(-100%);
+    
+    &:not(.isClosed) {
+      transform: translateX(0);
+    }
+    
+    &.isClosed {
+      width: 100%;
+      transform: translateX(-100%);
+    }
+  }
+
+  // Dark mode enhancements
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(145deg, #0c1527 0%, #020617 100%);
+    box-shadow: 
+      4px 0 25px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.03);
+  }
+
+  // Loading state animation
+  &.loading {
+    a {
+      pointer-events: none;
+      
+      &::before {
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 100%
+        );
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// Optional: Add a backdrop for mobile
+@media (max-width: 768px) {
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.back-btn {
+  background: transparent;
+  color: #cbd5e1;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: white;
+  }
+
+}
+
+.back-btn {
+  z-index: 1001; // higher than .sidebar (1000)
+  position: relative;
+}
+
+button{
+  color: white;
+  
+}

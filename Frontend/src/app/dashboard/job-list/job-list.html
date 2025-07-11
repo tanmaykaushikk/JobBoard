@@ -1,0 +1,47 @@
+<div class="job-list-container">
+
+  <div class="filter-bar">
+    <label>
+      Filter by Mode:
+      <select #modeSelect (change)="onModeChange(modeSelect.value)">
+        <option value="">All</option>
+        <option value="Remote">Remote</option>
+        <option value="Hybrid">Hybrid</option>
+        <option value="On-site">On-site</option>
+      </select>
+    </label>
+
+    <label>
+      Sort by Salary:
+      <select #sortSelect (change)="onSortChange(sortSelect.value)">
+        <option value="">Default</option>
+        <option value="high">Highest Paying First</option>
+        <option value="low">Lowest Paying First</option>
+      </select>
+    </label>
+  </div>
+
+
+  @if (loading) {
+    <div>Loading Jobs...</div>
+  }
+
+
+  @if (error) {
+    <div>{{ error }}</div>
+  }
+
+  @if (!loading && jobs.length > 0) {
+    <div class="job-list">
+      @for (job of filteredJobs; track job.id) {
+        <app-job-card [job]="job"></app-job-card>
+      }
+    </div>
+  }
+
+
+  @if (!loading && jobs.length === 0 && !error) {
+    <p>No jobs found.</p>
+  }
+
+</div>

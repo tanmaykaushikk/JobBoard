@@ -1,0 +1,103 @@
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>Job Portal</h1>
+        <p>Find your perfect job opportunity</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <button class="nav-tab" [class.active]="activeTab === 'jobs'" (click)="showTab('jobs')">
+            Browse Jobs
+        </button>
+        <button class="nav-tab" [class.active]="activeTab === 'create'" (click)="showTab('create')">
+            Post a Job
+        </button>
+    </div>
+
+    <!-- Browse Jobs Tab -->
+    <div *ngIf="activeTab === 'jobs'">
+        <div *ngIf="loading">Loading Jobs...</div>
+        <div *ngIf="error">{{ error }}</div>
+        <div *ngIf="!loading && jobs.length === 0 && !error">
+            <p>No jobs found.</p>
+        </div>
+
+        <div class="job-list" *ngIf="!loading && jobs.length > 0">
+            <app-job-card *ngFor="let job of filteredJobs; trackBy: trackByJobId" [job]="job"></app-job-card>
+        </div>
+    </div>
+
+    <!-- Post a Job Tab --> 
+    <div *ngIf="activeTab === 'create'" class="tab-content">
+        <form class="job-form" [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+            <h2 style="margin-bottom: 1.5rem; color: #1e293b;">Post a New Job</h2>  
+
+            <div class="form-group">
+                <label class="form-label">Job Title *</label>
+                <input formControlName="title" type="text" class="form-control" name="title" required
+                    placeholder="e.g., Senior Frontend Developer" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Company Name *</label>
+                <input formControlName="companyName" type="text" class="form-control" name="companyName" required
+                    placeholder="e.g., TechCorp Solutions" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Job Description *</label>
+                <textarea formControlName="description" class="form-control" name="description" required
+                    placeholder="Describe the role, responsibilities, and what you're looking for..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <input formControlName="location" type="text" class="form-control" name="location"
+                    placeholder="e.g., Mumbai, Maharashtra" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Employment Type</label>
+                <select class="form-control" name="employmentType" formControlName="employmentType">
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                    <option value="temporary">Temporary</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Salary</label>
+                <div class="currency-group">
+                    <input formControlName="salary" type="text" class="form-control" name="salary"
+                        placeholder="e.g., 8,00,000 - 12,00,000" />
+                    <select class="form-control" name="currency">
+                        <option value="INR">INR</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Requirements</label>
+                <div class="requirements-input" formArrayName="requirements">
+                    <div class="requirement-item" *ngFor="let reqCtrl of requirements.controls; let i = index">
+                        <input [formControlName]="i" class="form-control"
+                            placeholder="e.g., 5+ years of experience in React" />
+                        <button type="button" class="btn-remove" (click)="removeRequirement(i)">×</button>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" (click)="addRequirement()">+ Add Requirement</button>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" style="width: 100%">
+                    Post Job
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

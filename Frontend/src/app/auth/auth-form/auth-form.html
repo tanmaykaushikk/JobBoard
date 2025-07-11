@@ -1,0 +1,26 @@
+<div class="main-container">
+  <div class="auth-container">
+    <h2>{{ isLoginMode ? 'Login' : 'Signup' }}</h2>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+      <input *ngIf="!isLoginMode" type="text" formControlName="name" placeholder="Name" />
+      <input type="email" formControlName="email" placeholder="Email" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      
+      <select *ngIf="!isLoginMode" formControlName="role" class="select">
+        <option value="" disabled selected>Select Role</option>
+        <option value="jobseeker">Job Seeker</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button type="submit" class="submit-btn" id="submitBtn">{{ isLoginMode ? 'Login' : 'Signup' }}</button>
+    </form>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button class="toggle-btn" id="toggleBtn" (click)="toggleMode()">
+      Switch to {{ isLoginMode ? 'Signup' : 'Login' }}
+    </button>
+  </div>
+</div>
